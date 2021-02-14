@@ -161,6 +161,7 @@ class Knight extends Piece {
     legal_moves = legal_moves.filter((arr) => isInRange(arr, 0, 7));
 
     legal_moves = legal_moves.filter((item) => {
+      
       let square = board.getSquare(item[0], item[1]);
       if (square.hasPiece) {
         if (square.pieceOnSquare.color != this.color) {

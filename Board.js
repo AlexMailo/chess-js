@@ -1,3 +1,6 @@
+
+
+
 class Board {
   constructor() {
     this.el = document.createElement("div");
@@ -24,147 +27,80 @@ class Board {
     }
   }
 
-  addPieces(fenNotation) {
-    for (let i = 0; i < 8; i++) {
-      for (let j = 0; j < 8; j++) {
-        if (i == 1) {
-          const piece = new Pawn(i, j, "black");
-          this.pieces.push({
-            pos: piece.getPosition(),
-            type: piece.type,
-            color: piece.color,
-          });
-          this.board[i][j].el.appendChild(piece.el);
-          this.board[i][j].setPieceOnSquare(piece);
-        }
-
-        if ((i == 0 && j == 0) || (i == 0 && j == 7)) {
-          const piece = new Rook(i, j, "black");
-          this.pieces.push({
-            pos: piece.getPosition(),
-            type: piece.type,
-            color: piece.color,
-          });
-          this.board[i][j].el.appendChild(piece.el);
-          this.board[i][j].setPieceOnSquare(piece);
-        }
-
-        if ((i == 0 && j == 1) || (i == 0 && j == 6)) {
-          const piece = new Knight(i, j, "black");
-          this.pieces.push({
-            pos: piece.getPosition(),
-            type: piece.type,
-            color: piece.color,
-          });
-          this.board[i][j].el.appendChild(piece.el);
-          this.board[i][j].setPieceOnSquare(piece);
-        }
-
-        if ((i == 0 && j == 2) || (i == 0 && j == 5)) {
-          const piece = new Bishop(i, j, "black");
-          this.pieces.push({
-            pos: piece.getPosition(),
-            type: piece.type,
-            color: piece.color,
-          });
-          this.board[i][j].el.appendChild(piece.el);
-          this.board[i][j].setPieceOnSquare(piece);
-        }
-
-        if (i == 0 && j == 3) {
-          const piece = new Queen(i, j, "black");
-          this.pieces.push({
-            pos: piece.getPosition(),
-            type: piece.type,
-            color: piece.color,
-          });
-          this.board[i][j].el.appendChild(piece.el);
-          this.board[i][j].setPieceOnSquare(piece);
-        }
-        if (i == 0 && j == 4) {
-          const piece = new King(i, j, "black");
-          this.pieces.push({
-            pos: piece.getPosition(),
-            type: piece.type,
-            color: piece.color,
-          });
-          this.board[i][j].el.appendChild(piece.el);
-          this.board[i][j].setPieceOnSquare(piece);
-        }
-
-        if (i == 6) {
-          const piece = new Pawn(i, j, "white");
-          this.pieces.push({
-            pos: piece.getPosition(),
-            type: piece.type,
-            color: piece.color,
-          });
-          this.board[i][j].el.appendChild(piece.el);
-          this.board[i][j].setPieceOnSquare(piece);
-        }
-
-        if ((i == 7 && j == 0) || (i == 7 && j == 7)) {
-          const piece = new Rook(i, j, "white");
-          this.pieces.push({
-            pos: piece.getPosition(),
-            type: piece.type,
-            color: piece.color,
-          });
-          this.board[i][j].el.appendChild(piece.el);
-          this.board[i][j].setPieceOnSquare(piece);
-        }
-
-        if ((i == 7 && j == 1) || (i == 7 && j == 6)) {
-          const piece = new Knight(i, j, "white");
-          this.pieces.push({
-            pos: piece.getPosition(),
-            type: piece.type,
-            color: piece.color,
-          });
-          this.board[i][j].el.appendChild(piece.el);
-          this.board[i][j].setPieceOnSquare(piece);
-        }
-
-        if ((i == 7 && j == 2) || (i == 7 && j == 5)) {
-          const piece = new Bishop(i, j, "white");
-          this.pieces.push({
-            pos: piece.getPosition(),
-            type: piece.type,
-            color: piece.color,
-          });
-          this.board[i][j].el.appendChild(piece.el);
-          this.board[i][j].setPieceOnSquare(piece);
-        }
-
-        if (i == 7 && j == 3) {
-          const piece = new Queen(i, j, "white");
-          this.pieces.push({
-            pos: piece.getPosition(),
-            type: piece.type,
-            color: piece.color,
-          });
-          this.board[i][j].el.appendChild(piece.el);
-          this.board[i][j].setPieceOnSquare(piece);
-        }
-        if (i == 7 && j == 4) {
-          const piece = new King(i, j, "white");
-          this.pieces.push({
-            pos: piece.getPosition(),
-            type: piece.type,
-            color: piece.color,
-          });
-          this.board[i][j].el.appendChild(piece.el);
-          this.board[i][j].setPieceOnSquare(piece);
+  addPieces(fenNotation = "r2qkb1r/pp2nppp/3p4/2pNN1B1/2BnP3/3P4/PPP2PPP/R2bK2R") {
+    this.fenNotation = fenNotation;
+    let fen = this.fenToArray(fenNotation)
+    
+    for (let r = 0; r < 8; r++) {
+      for (let c = 0; c < 8; c++) {
+        let piece = fen[r][c]
+        if (piece != 'nothing') {
+          this.board[r][c].el.appendChild(piece.el)
+          this.board[r][c].setPieceOnSquare(piece)
         }
       }
+
     }
   }
-  getSquare(r,c){
+  getSquare(r, c) {
     return this.board[r][c]
   }
 
-  fenToArray(fen){
-      
+  fenToArray(fen) {
+    function getPiece(el, r, c) {
+      switch (el) {
+        case "P":
+          return new Pawn(r, c, 'white')
+        case "p":
+          return new Pawn(r, c, 'black')
+        case "N":
+          return new Knight(r, c, 'white')
+        case "n":
+          return new Knight(r, c, 'black')
+        case "B":
+          return new Bishop(r, c, 'white')
+        case "b":
+          return new Bishop(r, c, 'black')
+        case "Q":
+          return new Queen(r, c, 'white')
+        case "q":
+          return new Queen(r, c, 'black')
+        case "K":
+          return new King(r, c, 'white')
+        case "k":
+          return new King(r, c, 'black')
+        case 'R':
+          return new Rook(r, c, 'white')
+        case 'r':
+          return new Rook(r, c, 'black')
+        default:
+          return "nothing"
+
+
+      }
+    }
+    const grid = []
+
+    let arr = fen.split('/')
+
+
+    arr.forEach((row, r) => {
+      let temp = []
+      row.split('').forEach((el, c) => {
+        if (!isNaN(el)) {
+          for (let i = 0; i < parseInt(el); i++) {
+            temp.push('nothing')
+          }
+        }
+        else {
+          temp.push(getPiece(el, r, c))
+        }
+      })
+      grid.push(temp)
+
+    });
+
+    return grid
   }
 }
 

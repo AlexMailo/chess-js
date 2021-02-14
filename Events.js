@@ -14,7 +14,8 @@ function onHover(event) {
 
 function movePiece(state) {
   const { dest_square, piece, whiteTurn } = state;
-  console.log(state);
+  
+  
 
   if (canMove(piece.getPosibleMoves(), dest_square.pos)) {
     if (piece.color == "white" && !whiteTurn ||piece.color == "black" && whiteTurn)
