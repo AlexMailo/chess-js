@@ -1,0 +1,48 @@
+
+body{
+    background-color: rgb(28, 28, 39);
+}
+
+
+#chess-board{
+    height: 800px;
+    width: 800px;
+    display: grid;
+    grid-template-columns: repeat(8,100px);
+    grid-template-rows: repeat(8,100px);
+   
+}
+main{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+.square{
+    height: 100px ;
+    width: 100px ;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+}
+
+.square__light{
+    background-color: #efefef;
+}
+.square__dark{
+    background-color: #045280;
+}
+.piece__image{
+    height: 100%;
+    cursor: pointer;
+}
+
+.legal_move{
+    position: absolute;
+    background-color: rgba(14, 223, 223, 0.616);
+    border-radius: 50%;
+    height: 50px;
+    width: 50px;
+    top: 25px;
+}
